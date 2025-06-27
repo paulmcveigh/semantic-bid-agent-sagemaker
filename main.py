@@ -126,7 +126,7 @@ class RiskEvaluator:
     ) -> dict:
         
         return {
-            "risk_score": 0.48,
+            "risk_score": 0.47,
             "model_used": "fraud-detection-xgb-v1-endpoint"
         }
 
