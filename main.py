@@ -154,8 +154,9 @@ class RiskEvaluator:
         else:
             region_value = 5
         
-        payload = f"{region_value},{coverage_amount}"
+        #payload = f"{region_value},{coverage_amount}"
         #payload = f"1,150000000"
+        payload = f"{region_value},6"
 
         response = self.runtime.invoke_endpoint(
             EndpointName=self.endpoint_name,
