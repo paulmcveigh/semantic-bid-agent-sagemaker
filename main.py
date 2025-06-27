@@ -125,10 +125,10 @@ class RiskEvaluator:
         claim_data: Annotated[dict, "Structured claim data with fields like coverage_amount and region_of_operation."]
     ) -> dict:
         
-        return {
+        '''return {
             "risk_score": 0.47,
             "model_used": "fraud-detection-xgb-v1-endpoint"
-        }
+        }'''
 
         '''return {
             "risk_score": 0.48,
@@ -136,7 +136,7 @@ class RiskEvaluator:
             "model_used": self.endpoint_name 
         }'''
         
-        '''coverage_amount = claim_data.get("coverage_amount", "")
+        coverage_amount = claim_data.get("coverage_amount", "")
         
         region_of_operation = claim_data.get("region_of_operation", "").lower()
         organisation_name =  claim_data.get("organisation_name", "").lower()
@@ -152,11 +152,10 @@ class RiskEvaluator:
         elif region_of_operation == "africa":
             region_value = 4
         else:
-            region_value = 5'''
-        '''
-        #payload = f"{coverage_amount},{region_value}"
-        payload = f"1,150000000"
-
+            region_value = 5
+        
+        payload = f"{region_value},{coverage_amount}"
+        #payload = f"1,150000000"
 
         response = self.runtime.invoke_endpoint(
             EndpointName=self.endpoint_name,
@@ -165,15 +164,17 @@ class RiskEvaluator:
         )
         prediction = json.loads(response["Body"].read().decode())
 
-        return {
+        '''return {
             "risk_score": prediction
-        }
+        }'''
 
         rationale = f"Risk for organisation: {organisation_name} assessed as {prediction} based on our model."
 
         return {
             "risk_score": prediction,
-            "explanation": rationale
+            "explanation": rationale,
+            "service_used": self.runtime,
+            "model_used": self.endpoint_name
         }
         '''
 
