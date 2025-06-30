@@ -133,11 +133,24 @@ class RiskEvaluator:
         self,
         claim_data: Annotated[dict, "Structured claim data with fields like coverage_amount and region_of_operation."]
     ) -> dict:
-        
+
+        payload = f"1,15"
+        response = self.runtime.invoke_endpoint(
+            EndpointName=self.endpoint_name,
+            ContentType="text/csv",
+            Body=payload
+        )
+        prediction = json.loads(response["Body"].read().decode())
+
         return {
+            "risk_score": prediction
+        }
+
+        
+        '''return {
             "risk_score": 0.48,
             "model_used": "fraud-detection-xgb-v1-endpoint"
-        }
+        }'''
 
         '''return {
             "risk_score": 0.48,
