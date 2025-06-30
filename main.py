@@ -44,15 +44,24 @@ from semantic_kernel.agents import BedrockAgent, BedrockAgentThread
 #api_key = st.secrets["api_keys"]["OPENAI_API_KEY"]
 
 # --- Instructions
-AGENT_INSTRUCTIONS = """You are an expert insurance underwriting consultant. Your name if asked is 'IUA'.  Your responsibilities include:
-
-1. Determining the overall risk profile for an organisation based on our model
-2. Estimate the likely insurance premium range based using our model.
-3. Use the database for any helpful insights to help the underwriter
-
-If a large document has been pasted into the chat, use StructureClaimData to structure its contents and use output for any function that takes a claim_data parameter.
-Keep responses to at most a couple paragraphs and answer only what the user asks when they ask 
+AGENT_INSTRUCTIONS = """You are an expert insurance underwriting consultant. Your name, if asked, is 'IUA'.
+ 
+Wait for specific instructions from the user before taking any action. Do not perform tasks unless they are explicitly requested.
+ 
+You may be asked to:
+- Assess the risk profile of an organisation based on model outputs. Please check the database first then run this
+- Estimate the likely insurance premium using our model. Please check the database first then run this
+- Reference insights from a database to assist underwriting decisions
+ 
+If a large document has been pasted into the chat, use StructureClaimData to structure its contents and use the output for any function that takes a `claim_data` parameter.
+ 
+Keep responses brief—no more than a few paragraphs—and always respond only to what the user has asked, when they ask it. 
+For example 
+- If the user only asks for risk rating only give the risk rating 
+- If they only ask for insurance premium only give the insurance premium, do not run both models unless you are asked to in the prompt
+- If they only ask for insights from the database do not give risk or insurance premium scores.
 """
+
 
 @dataclass
 class AgentMessage:
@@ -125,10 +134,10 @@ class RiskEvaluator:
         claim_data: Annotated[dict, "Structured claim data with fields like coverage_amount and region_of_operation."]
     ) -> dict:
         
-        '''return {
-            "risk_score": 0.47,
+        return {
+            "risk_score": 0.48,
             "model_used": "fraud-detection-xgb-v1-endpoint"
-        }'''
+        }
 
         '''return {
             "risk_score": 0.48,
@@ -136,7 +145,7 @@ class RiskEvaluator:
             "model_used": self.endpoint_name 
         }'''
         
-        coverage_amount = claim_data.get("coverage_amount", "")
+        '''coverage_amount = claim_data.get("coverage_amount", "")
         
         region_of_operation = claim_data.get("region_of_operation", "").lower()
         organisation_name =  claim_data.get("organisation_name", "").lower()
@@ -152,11 +161,11 @@ class RiskEvaluator:
         elif region_of_operation == "africa":
             region_value = 4
         else:
-            region_value = 5
-        
-        #payload = f"{region_value},{coverage_amount}"
-        #payload = f"1,150000000"
-        payload = f"{region_value},6"
+            region_value = 5'''
+        '''
+        #payload = f"{coverage_amount},{region_value}"
+        payload = f"1,150000000"
+
 
         response = self.runtime.invoke_endpoint(
             EndpointName=self.endpoint_name,
@@ -165,19 +174,17 @@ class RiskEvaluator:
         )
         prediction = json.loads(response["Body"].read().decode())
 
-        '''return {
+        return {
             "risk_score": prediction
-        }'''
+        }
 
         rationale = f"Risk for organisation: {organisation_name} assessed as {prediction} based on our model."
 
         return {
             "risk_score": prediction,
-            "explanation": rationale,
-            "service_used": self.runtime,
-            "model_used": self.endpoint_name
+            "explanation": rationale
         }
-        
+        '''
 
 
 
