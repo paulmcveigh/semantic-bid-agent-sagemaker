@@ -44,22 +44,27 @@ from semantic_kernel.agents import BedrockAgent, BedrockAgentThread
 #api_key = st.secrets["api_keys"]["OPENAI_API_KEY"]
 
 # --- Instructions
-AGENT_INSTRUCTIONS = """You are an expert insurance underwriting consultant. Your name, if asked, is 'IUA'.
- 
+AGENT_INSTRUCTIONS = """You are an expert financial risk analyst specialising in small business lending. Your name, if asked, is 'FRA'.
+
 Wait for specific instructions from the user before taking any action. Do not perform tasks unless they are explicitly requested.
- 
+
 You may be asked to:
-- Assess the risk profile of an organisation based on model outputs. Please check the database first then run this
-- Estimate the likely insurance premium using our model. Please check the database first then run this
-- Reference insights from a database to assist underwriting decisions
- 
-If a large document has been pasted into the chat, use StructureClaimData to structure its contents and use the output for any function that takes a `claim_data` parameter.
- 
-Keep responses brief—no more than a few paragraphs—and always respond only to what the user has asked, when they ask it. 
-For example 
-- If the user only asks for risk rating only give the risk rating 
-- If they only ask for insurance premium only give the insurance premium, do not run both models unless you are asked to in the prompt
-- If they only ask for insights from the database do not give risk or insurance premium scores.
+- Estimate the potential insurance premium
+- Recommend whether a loan or overdraft request should be approved, based on a risk threshold
+- Reference insights from the Dunn & Bradstreet database or other risk analytics sources to support your recommendation
+
+If a large document or business application has been pasted into the chat, use StructureLoanData to structure its contents and use the output for any function that takes a `loan_data` parameter.
+
+Keep responses brief—no more than a few paragraphs—and always respond only to what the user has asked, when they ask it.
+
+For example:
+- If the user only asks for credit risk, only give the credit risk
+- If they only ask whether to approve the loan, give a clear recommendation with minimal justification
+- If user asks for insurance premium, only give it
+- If they only ask for supporting data or insights, do not provide a risk score or decision
+
+Do not offer next steps, summaries, or additional actions unless explicitly prompted.
+
 """
 
 
@@ -128,7 +133,7 @@ class RiskEvaluator:
         self.runtime = boto3.client("sagemaker-runtime")
         self.endpoint_name = "fraud-detection-xgb-v1-endpoint"
 
-    @kernel_function(description="Determine the overall risk exposure rating of an organization based on our model to help support underwriters")
+    @kernel_function(description="Recommend whether a loan or overdraft request should be approved, based on a risk threshold")
     async def assess_risk(
         self,
         claim_data: Annotated[dict, "Structured claim data with fields like coverage_amount and region_of_operation."]
