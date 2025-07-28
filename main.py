@@ -201,16 +201,26 @@ import json
 import numpy as np
 from typing import Annotated
 
+#self.runtime = boto3.client("sagemaker-runtime")
+#self.endpoint_name = "claim-amount-linear-v2-endpoint"
+
 class InsurancePremiumEstimator:
     def __init__(self):
-        #self.runtime = boto3.client("sagemaker-runtime")
-        #self.endpoint_name = "claim-amount-linear-v2-endpoint"
+        self.runtime = "testruntime"
+        self.endpoint_name = "testendpoint"
 
     @kernel_function(description="Estimate the likely insurance premium range using model in GBP.")
     async def estimate_size(
         self,
         claim_data: Annotated[dict, "Structured company data."]
     ) -> dict:
+
+        return {
+            "estimated_insurance_premium": 100000,
+            "currency": "GBP",
+            "service_used": self.runtime,
+            "model_used": self.endpoint_name 
+        }
 
         '''coverage_amount = claim_data.get("coverage_amount", "")
         region_of_operation = claim_data.get("region_of_operation", "").lower()
@@ -252,12 +262,6 @@ class InsurancePremiumEstimator:
             "service_used": self.runtime,
             "model_used": self.endpoint_name 
         }'''
-        return {
-            "estimated_insurance_premium": 100000,
-            "currency": "GBP",
-            #"service_used": self.runtime,
-            #"model_used": self.endpoint_name 
-        }
 
 
 
@@ -601,7 +605,7 @@ async def main(
         name="FRA",
         instructions=AGENT_INSTRUCTIONS,
         arguments=KernelArguments(
-            settings=BedrockChatPromptExecutionSettings(
+            settings=OpenAIChatPromptExecutionSettings(
                 temperature=0.5,
                 top_p=0.95,
                 function_choice_behavior=FunctionChoiceBehavior.Auto()
