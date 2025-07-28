@@ -41,8 +41,7 @@ from semantic_kernel.connectors.ai.function_choice_behavior import FunctionChoic
 from semantic_kernel.agents import BedrockAgent, BedrockAgentThread
 
 
-api_key = "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"
-#st.secrets["api_keys"]["OPENAI_API_KEY"]
+api_key = st.secrets["api_keys"]["OPENAI_API_KEY"]
 
 # --- Instructions
 AGENT_INSTRUCTIONS = """You are an expert financial risk analyst specialising in small business lending. Your name, if asked, is 'FRA'.
