@@ -41,7 +41,8 @@ from semantic_kernel.connectors.ai.function_choice_behavior import FunctionChoic
 from semantic_kernel.agents import BedrockAgent, BedrockAgentThread
 
 
-#api_key = st.secrets["api_keys"]["OPENAI_API_KEY"]
+api_key = "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"
+#st.secrets["api_keys"]["OPENAI_API_KEY"]
 
 # --- Instructions
 AGENT_INSTRUCTIONS = """You are an expert financial risk analyst specialising in small business lending. Your name, if asked, is 'FRA'.
@@ -202,8 +203,8 @@ from typing import Annotated
 
 class InsurancePremiumEstimator:
     def __init__(self):
-        self.runtime = boto3.client("sagemaker-runtime")
-        self.endpoint_name = "claim-amount-linear-v2-endpoint"
+        #self.runtime = boto3.client("sagemaker-runtime")
+        #self.endpoint_name = "claim-amount-linear-v2-endpoint"
 
     @kernel_function(description="Estimate the likely insurance premium range using model in GBP.")
     async def estimate_size(
@@ -211,13 +212,13 @@ class InsurancePremiumEstimator:
         claim_data: Annotated[dict, "Structured company data."]
     ) -> dict:
 
-        coverage_amount = claim_data.get("coverage_amount", "")
+        '''coverage_amount = claim_data.get("coverage_amount", "")
         region_of_operation = claim_data.get("region_of_operation", "").lower()
-        '''coverage_amount_str = claim_data.get("coverage_amount", "").lower()
-        region_of_operation = claim_data.get("region_of_operation", "").lower()
-        cleaned = coverage_amount_str.lower().replace(",", "")
+        #coverage_amount_str = claim_data.get("coverage_amount", "").lower()
+        #region_of_operation = claim_data.get("region_of_operation", "").lower()
+        #cleaned = coverage_amount_str.lower().replace(",", "")
         # Extract digits only
-        digits = ''.join(filter(str.isdigit, cleaned))'''
+        #digits = ''.join(filter(str.isdigit, cleaned))
         # Convert to integer and scale down
         coverage_amount = int(coverage_amount) // 1000 if coverage_amount else 0
         
@@ -250,6 +251,12 @@ class InsurancePremiumEstimator:
             "currency": "GBP",
             "service_used": self.runtime,
             "model_used": self.endpoint_name 
+        }'''
+        return {
+            "estimated_insurance_premium": 100000,
+            "currency": "GBP",
+            #"service_used": self.runtime,
+            #"model_used": self.endpoint_name 
         }
 
 
@@ -566,8 +573,9 @@ async def main(
     claim_text: Optional[str] = None
 ) -> AgentResponse:
     kernel = Kernel()
-    kernel.add_service(BedrockChatCompletion(
-        model_id="eu.anthropic.claude-3-7-sonnet-20250219-v1:0",
+    kernel.add_service(OpenAIChatCompletion(
+        ai_model_id="gpt-4.1-mini",
+        api_key=api_key
     ))
 
     messages: List[AgentMessage] = []
@@ -578,7 +586,7 @@ async def main(
         vector_memory_rag.add_document(claim_text)
 
     # --- Register plugins
-    kernel.add_plugin( FailureScoreChecker(), plugin_name="FailureScoreChecker")
+    #kernel.add_plugin( FailureScoreChecker(), plugin_name="FailureScoreChecker")
     #kernel.add_plugin(DataCollector(kernel), plugin_name="collector")    
     kernel.add_plugin(vector_memory_rag, plugin_name="VectorMemoryRAG")
     kernel.add_plugin(RiskEvaluator(), plugin_name="RiskModel")
@@ -590,7 +598,7 @@ async def main(
 
     agent = ChatCompletionAgent(
         kernel=kernel,
-        name="IUA",
+        name="FRA",
         instructions=AGENT_INSTRUCTIONS,
         arguments=KernelArguments(
             settings=BedrockChatPromptExecutionSettings(
