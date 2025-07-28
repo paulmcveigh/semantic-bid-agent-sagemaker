@@ -127,10 +127,14 @@ class FailureScoreChecker:
 ##################################################################
 
 ##################################################################
+
+#self.runtime = boto3.client("sagemaker-runtime")
+#self.endpoint_name = "fraud-detection-xgb-v1-endpoint"
+
 #TODO: Adapt to db data
 class RiskEvaluator:
     def __init__(self):
-        self.runtime = boto3.client("sagemaker-runtime")
+        self.runtime = "testruntime"
         self.endpoint_name = "fraud-detection-xgb-v1-endpoint"
 
     @kernel_function(description="Recommend whether a loan or overdraft request should be approved, based on a risk threshold")
