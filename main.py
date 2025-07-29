@@ -83,6 +83,9 @@ class AgentResponse:
     thread: ChatHistoryAgentThread
     metrics: Dict[str, Any] = field(default_factory=dict)
 
+from azure.cosmos import CosmosClient, exceptions
+from typing import Annotated
+
 #################################################################
 #TODO: Adapt to use db after chat with Tania
 class FailureScoreChecker:
@@ -91,10 +94,27 @@ class FailureScoreChecker:
         self,
         claim_data: Annotated[dict, "Structured claim object containing organisation_name."]
     ) -> dict:
+
+        endpoint = "https://kainosagenticdemo.documents.azure.com:443/"
+        key = "telhG9xAGggSy6IcaT9vvKWNA8dnLDcmJCP8NOrrrV2ryxScX3ZbzqLcHGOzEPBEy7bPd64UDEceACDb4mwcew=="
+
+        database_name = "ainosagenticdemodb"
+        container_name = "kainosagenticdemocontainer"
+
+        organisation_name = claim_data.get("organisation_name", "N/A")
+
+        client = CosmosClient(endpoint, key)
+        database = client.get_database_client(database_name)
+        container = database.get_container_client(container_name)
+
+        items = list(container.read_all_items())
+        return items
+
+        '''
         dynamodb = boto3.resource('dynamodb', region_name="eu-north-1")
         dnb_table = dynamodb.Table("dnb_data")
         organisation_name = claim_data.get("organisation_name", "N/A")
-
+        '''
         '''
         name = organisation_name
         df = pd.read_csv("data\\dnb.csv")
@@ -104,12 +124,12 @@ class FailureScoreChecker:
             "climate_risk_score": risk_score
         }
         '''
-
+        '''
         response = dnb_table.scan()
         items = response.get('Items', [])
 
         return items
-
+        '''
         '''
         response = dnb_table.scan(
             FilterExpression='organization_name = :org',
