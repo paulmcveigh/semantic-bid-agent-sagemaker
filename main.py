@@ -108,6 +108,8 @@ class FailureScoreChecker:
         container = database.get_container_client(container_name)
 
         items = list(container.read_all_items())
+        print("Items:")
+        print(items)
         return items
 
         '''
