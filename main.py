@@ -53,7 +53,7 @@ You may be asked to:
 - Recommend whether a loan or overdraft request should be approved, based on a risk threshold
 - Reference insights from the database or other risk analytics sources to support your recommendation, and if the user asks for info from the database please provide it
 
-If a large document or business application has been pasted into the chat, use StructureLoanData to structure its contents and use the output for any function that takes a `loan_data` parameter.
+If a large document/email or business application has been pasted into the chat, use StructureClaimData to structure its contents and use the output for any function that takes a `loan_data` parameter.
 
 Keep responses brief—no more than a few paragraphs—and always respond only to what the user has asked, when they ask it.
 
@@ -89,7 +89,7 @@ from typing import Annotated
 #################################################################
 #TODO: Adapt to use db after chat with Tania
 class FailureScoreChecker:
-    @kernel_function(description="Retrieve the failure score and failure score commentary for an organisation from the Dun & Bradstreed Database.")
+    @kernel_function(description="Retrieve the failure score and failure score commentary for an organisation from the database.")
     async def retrieve_failure_rating(
         self,
         claim_data: Annotated[dict, "Structured claim object containing organisation_name."]
