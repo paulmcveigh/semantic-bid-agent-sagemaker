@@ -42,7 +42,7 @@ from semantic_kernel.agents import BedrockAgent, BedrockAgentThread
 
 
 api_key = st.secrets["api_keys"]["OPENAI_API_KEY"]
-uri = st.secrets["cosmosdb"]["uri"]
+endpoint = st.secrets["cosmosdb"]["endpoint"]
 key = st.secrets["cosmosdb"]["key"]
 database_name = st.secrets["cosmosdb"]["database"]
 container_name = st.secrets["cosmosdb"]["container"]
