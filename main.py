@@ -42,6 +42,11 @@ from semantic_kernel.agents import BedrockAgent, BedrockAgentThread
 
 
 api_key = st.secrets["api_keys"]["OPENAI_API_KEY"]
+uri = st.secrets["cosmosdb"]["uri"]
+key = st.secrets["cosmosdb"]["key"]
+database_name = st.secrets["cosmosdb"]["database"]
+container_name = st.secrets["cosmosdb"]["container"]
+
 
 # --- Instructions
 AGENT_INSTRUCTIONS = """You are an expert financial risk analyst specialising in small business lending. Your name, if asked, is 'FRA'.
@@ -95,11 +100,11 @@ class FailureScoreChecker:
         claim_data: Annotated[dict, "Structured claim object containing organisation_name."]
     ) -> dict:
 
-        endpoint = "https://kainosagenticdemo.documents.azure.com:443/"
+        '''endpoint = "https://kainosagenticdemo.documents.azure.com:443/"
         key = "telhG9xAGggSy6IcaT9vvKWNA8dnLDcmJCP8NOrrrV2ryxScX3ZbzqLcHGOzEPBEy7bPd64UDEceACDb4mwcew=="
 
         database_name = "kainosagenticdemodb"
-        container_name = "kainosagenticdemocontainer"
+        container_name = "kainosagenticdemocontainer"'''
 
         #organisation_name = claim_data.get("organisation_name", "N/A")
 
