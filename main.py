@@ -98,7 +98,7 @@ class FailureScoreChecker:
         endpoint = "https://kainosagenticdemo.documents.azure.com:443/"
         key = "telhG9xAGggSy6IcaT9vvKWNA8dnLDcmJCP8NOrrrV2ryxScX3ZbzqLcHGOzEPBEy7bPd64UDEceACDb4mwcew=="
 
-        database_name = "ainosagenticdemodb"
+        database_name = "kainosagenticdemodb"
         container_name = "kainosagenticdemocontainer"
 
         organisation_name = claim_data.get("organisation_name", "N/A")
