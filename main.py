@@ -613,7 +613,7 @@ async def main(
         vector_memory_rag.add_document(claim_text)
 
     # --- Register plugins
-    #kernel.add_plugin( FailureScoreChecker(), plugin_name="FailureScoreChecker")
+    kernel.add_plugin(FailureScoreChecker(), plugin_name="FailureScoreChecker")
     #kernel.add_plugin(DataCollector(kernel), plugin_name="collector")    
     kernel.add_plugin(vector_memory_rag, plugin_name="VectorMemoryRAG")
     kernel.add_plugin(RiskEvaluator(), plugin_name="RiskModel")
