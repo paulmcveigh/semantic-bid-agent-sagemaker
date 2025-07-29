@@ -101,7 +101,7 @@ class FailureScoreChecker:
         database_name = "kainosagenticdemodb"
         container_name = "kainosagenticdemocontainer"
 
-        organisation_name = claim_data.get("organisation_name", "N/A")
+        #organisation_name = claim_data.get("organisation_name", "N/A")
 
         client = CosmosClient(endpoint, key)
         database = client.get_database_client(database_name)
