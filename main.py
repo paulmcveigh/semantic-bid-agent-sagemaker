@@ -34,6 +34,8 @@ import pandas as pd
 from semantic_kernel.connectors.ai.bedrock.bedrock_prompt_execution_settings import BedrockChatPromptExecutionSettings
 from semantic_kernel.connectors.ai.bedrock.services.bedrock_chat_completion import BedrockChatCompletion
 from semantic_kernel.connectors.ai.open_ai import AzureOpenAIChatCompletion
+from semantic_kernel.connectors.ai.azure_openai import AzureChatCompletion
+
 from semantic_kernel.contents import ChatHistory
 from semantic_kernel.connectors.ai.function_choice_behavior import FunctionChoiceBehavior
 #from semantic_kernel.connectors.ai.open_ai.prompt_execution_settings.open_ai_prompt_execution_settings import OpenAIChatPromptExecutionSettings
@@ -609,7 +611,7 @@ async def main(
     claim_text: Optional[str] = None
 ) -> AgentResponse:
     kernel = Kernel()
-    kernel.add_service(AzureOpenAIChatCompletion(
+    kernel.add_service(AzureChatCompletion(
         deployment_name="kainosgpt",
         endpoint=openai_endpoint,
         api_key=openai_key,
