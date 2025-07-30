@@ -44,11 +44,11 @@ from semantic_kernel.agents import BedrockAgent, BedrockAgentThread
 import openai
 
 #api_key = st.secrets["api_keys"]["OPENAI_API_KEY"]
-openai.api_type = "azure"
+openai_api_type = "azure"
 openai_key = st.secrets["openai"]["AZURE_OPENAI_API_KEY"]
 openai_endpoint = st.secrets["openai"]["AZURE_OPENAI_ENDPOINT"]
-openai.api_version = st.secrets["openai"]["AZURE_OPENAI_API_VERSION"]
-deployment_name = st.secrets["openai"]["AZURE_OPENAI_DEPLOYMENT_NAME"]
+openai_version = st.secrets["openai"]["AZURE_OPENAI_API_VERSION"]
+openai_deployment_name = st.secrets["openai"]["AZURE_OPENAI_DEPLOYMENT_NAME"]
 
 
 
@@ -612,7 +612,8 @@ async def main(
     kernel.add_service(AzureOpenAIChatCompletion(
         deployment_name="kainosgpt",
         endpoint=openai_endpoint,
-        api_key=openai_key
+        api_key=openai_key,
+        api_version=openai_version
     ))
 
     messages: List[AgentMessage] = []
