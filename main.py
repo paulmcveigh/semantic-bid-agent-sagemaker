@@ -35,6 +35,7 @@ from semantic_kernel.agents import BedrockAgent, BedrockAgentThread
 
 
 from azure_methods import FailureScoreChecker, RiskEvaluator, InsurancePremiumEstimator
+from agent_text_processing import VectorMemoryRAGPlugin, StructureClaimData
 
 #api_key = st.secrets["api_keys"]["OPENAI_API_KEY"]
 openai_api_type = "azure"
