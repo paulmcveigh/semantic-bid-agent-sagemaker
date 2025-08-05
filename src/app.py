@@ -11,13 +11,15 @@ from semantic_kernel.agents import ChatHistoryAgentThread
 # Apply nest_asyncio to allow nested event loops
 nest_asyncio.apply()
 
+knos_path = os.path.join(os.path.dirname(__file__), "knos.png")
+
 def get_message_content(message) -> str:
     if not message.content:
         return ""
     return str(message.content)
 
 # Page config
-st.set_page_config(page_title="Kainos Underiting Assistant", layout="wide")
+st.set_page_config(page_title="Kainos Underwriting Assistant", layout="wide")
 st.title("Kainos Agentic Underwriting Assistant")
 
 # Initialize session state variables
@@ -33,7 +35,7 @@ if "output" not in st.session_state:
     st.session_state.output = ""
 
 # Sidebar
-st.sidebar.image("knos.png", width=200)
+st.sidebar.image(knos_path, width=200)
 st.sidebar.header("🔧 How can I help?")
 st.sidebar.text("I'm an agentic insurance underwriting assistant; able to support you with analysing businesses insurance profiles, providing premium estimates, assessing a company's risk profile and more")
 
