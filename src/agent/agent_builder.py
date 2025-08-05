@@ -6,7 +6,7 @@ from semantic_kernel.connectors.ai.bedrock.bedrock_prompt_execution_settings imp
 from semantic_kernel.connectors.ai.bedrock.services.bedrock_chat_completion import BedrockChatCompletion
 from semantic_kernel.connectors.ai.function_choice_behavior import FunctionChoiceBehavior
 
-from kernel_functions.failure_score_checker import FailureScoreEstimator
+from kernel_functions.failure_score_checker import FailureScoreChecker
 from kernel_functions.risk_evaluator import RiskEvaluator
 from kernel_functions.insurance_premium_estimator import InsurancePremiumEstimator
 from kernel_functions.structure_claim_data import StructureClaimData
