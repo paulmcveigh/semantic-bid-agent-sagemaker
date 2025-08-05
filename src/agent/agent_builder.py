@@ -12,7 +12,11 @@ from kernel_functions.insurance_premium_estimator import InsurancePremiumEstimat
 from kernel_functions.structure_claim_data import StructureClaimData
 from kernel_functions.vector_memory import VectorMemoryRAGPlugin
 
-
+openai_api_type = "azure"
+openai_key = st.secrets["openai"]["AZURE_OPENAI_API_KEY"]
+openai_endpoint = st.secrets["openai"]["AZURE_OPENAI_ENDPOINT"]
+openai_version = st.secrets["openai"]["AZURE_OPENAI_API_VERSION"]
+openai_deployment_name = st.secrets["openai"]["AZURE_OPENAI_DEPLOYMENT_NAME"]
 
 
 AGENT_INSTRUCTIONS = """You are an expert insurance underwriting consultant. Your name, if asked, is 'IUA'.
@@ -35,8 +39,10 @@ For example
 
 def build_agent(claim_text):
     kernel = Kernel()
-    kernel.add_service(BedrockChatCompletion(
-        model_id="eu.anthropic.claude-3-7-sonnet-20250219-v1:0",
+    kernel.add_service(AzureChatCompletion(
+        deployment_name="kainosgpt",
+        endpoint=openai_endpoint,
+        api_key=openai_key
     ))
 
 
@@ -59,10 +65,10 @@ def build_agent(claim_text):
 
     agent = ChatCompletionAgent(
         kernel=kernel,
-        name="IUA",
+        name="FRA",
         instructions=AGENT_INSTRUCTIONS,
         arguments=KernelArguments(
-            settings=BedrockChatPromptExecutionSettings(
+            settings=OpenAIChatPromptExecutionSettings(
                 temperature=0.5,
                 top_p=0.95,
                 function_choice_behavior=FunctionChoiceBehavior.Auto()
