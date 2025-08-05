@@ -13,6 +13,7 @@ nest_asyncio.apply()
 
 import os
 knos_path = os.path.join(os.path.dirname(__file__), "knos.png")
+screenshot_path = os.path.join(os.path.dirname(__file__), "Screenshot 2025-06-30 135757.png")
 
 def get_message_content(message) -> str:
     if not message.content:
@@ -241,7 +242,7 @@ with static_container:
         - It retains memory across interactions — giving it context and recall.
         - It autonomously decides **when** to use tools and **how** to respond.
         """)
-        st.image("Screenshot 2025-06-30 135757.png", caption="System Architecture Overview")
+        st.image(screenshot_path, caption="System Architecture Overview")
 
     with st.expander("💡 Why Use Semantic Kernel?"):
         st.markdown("""
