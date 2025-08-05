@@ -4,9 +4,9 @@ from typing import Optional, List
 from semantic_kernel.agents import ChatHistoryAgentThread
 from semantic_kernel.contents import ChatMessageContent, FunctionCallContent, FunctionResultContent
 
-from src.agent.agent_builder import build_agent
-from src.agent.agent_message import AgentMessage
-from src.agent.agent_response import AgentResponse
+from agent.agent_builder import build_agent
+from agent.agent_message import AgentMessage
+from agent.agent_response import AgentResponse
 
 
 # --- Main async entrypoint
