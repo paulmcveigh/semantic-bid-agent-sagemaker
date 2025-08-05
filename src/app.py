@@ -11,6 +11,7 @@ from semantic_kernel.agents import ChatHistoryAgentThread
 # Apply nest_asyncio to allow nested event loops
 nest_asyncio.apply()
 
+import os
 knos_path = os.path.join(os.path.dirname(__file__), "knos.png")
 
 def get_message_content(message) -> str:
