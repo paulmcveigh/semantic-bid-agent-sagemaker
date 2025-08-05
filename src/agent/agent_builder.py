@@ -5,6 +5,7 @@ from semantic_kernel.connectors.ai.function_choice_behavior import FunctionChoic
 from semantic_kernel.connectors.ai.bedrock.bedrock_prompt_execution_settings import BedrockChatPromptExecutionSettings
 from semantic_kernel.connectors.ai.bedrock.services.bedrock_chat_completion import BedrockChatCompletion
 from semantic_kernel.connectors.ai.function_choice_behavior import FunctionChoiceBehavior
+import streamlit as st
 
 from kernel_functions.failure_score_checker import FailureScoreChecker
 from kernel_functions.risk_evaluator import RiskEvaluator
