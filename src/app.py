@@ -8,6 +8,7 @@ import nest_asyncio
 from main import main as run_main
 from semantic_kernel.agents import ChatHistoryAgentThread
 
+
 # Apply nest_asyncio to allow nested event loops
 nest_asyncio.apply()
 
