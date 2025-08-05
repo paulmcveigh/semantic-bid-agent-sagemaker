@@ -45,6 +45,11 @@ from semantic_kernel.agents import BedrockAgent, BedrockAgentThread
 
 import openai
 
+endpoint = st.secrets["cosmosdb"]["endpoint"]
+key = st.secrets["cosmosdb"]["key"]
+database_name = st.secrets["cosmosdb"]["database"]
+container_name = st.secrets["cosmosdb"]["container"]
+
 
 #################################################################
 #TODO: Adapt to use db after chat with Tania
