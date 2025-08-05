@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from typing import Any, Dict, List
 from semantic_kernel.agents import ChatHistoryAgentThread
-from agent_message import AgentMessage
+from .agent_message import AgentMessage
 
 @dataclass
 class AgentResponse:
