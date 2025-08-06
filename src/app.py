@@ -13,8 +13,8 @@ from semantic_kernel.agents import ChatHistoryAgentThread
 nest_asyncio.apply()
 
 import os
-knos_path = os.path.join(os.path.dirname(__file__), "knos.png")
-screenshot_path = os.path.join(os.path.dirname(__file__), "Screenshot 2025-06-30 135757.png")
+knos_path = os.path.join(os.path.dirname(__file__), "../img/knos.png")
+screenshot_path = os.path.join(os.path.dirname(__file__), "../img/Screenshot 2025-06-30 135757.png")
 
 def get_message_content(message) -> str:
     if not message.content:
