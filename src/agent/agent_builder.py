@@ -2,8 +2,6 @@ from semantic_kernel import Kernel
 from semantic_kernel.agents import ChatCompletionAgent
 from semantic_kernel.functions import KernelArguments
 from semantic_kernel.connectors.ai.function_choice_behavior import FunctionChoiceBehavior
-from semantic_kernel.connectors.ai.bedrock.bedrock_prompt_execution_settings import BedrockChatPromptExecutionSettings
-from semantic_kernel.connectors.ai.bedrock.services.bedrock_chat_completion import BedrockChatCompletion
 from semantic_kernel.connectors.ai.function_choice_behavior import FunctionChoiceBehavior
 from semantic_kernel.connectors.ai.open_ai import AzureChatCompletion
 import streamlit as st
@@ -13,6 +11,46 @@ from kernel_functions.risk_evaluator import RiskEvaluator
 from kernel_functions.insurance_premium_estimator import InsurancePremiumEstimator
 from kernel_functions.structure_claim_data import StructureClaimData
 from kernel_functions.vector_memory import VectorMemoryRAGPlugin
+
+import asyncio
+import os
+import json
+import requests
+import faiss
+import numpy as np
+import sqlite3
+import streamlit as st
+import random
+import boto3
+from boto3.dynamodb.conditions import Key, Attr
+
+from dataclasses import dataclass, field, asdict
+from typing import Annotated, Optional, TypedDict, List, Any, Dict
+
+from sentence_transformers import SentenceTransformer
+import pandas as pd
+import openai
+
+from semantic_kernel import Kernel
+from semantic_kernel.agents import ChatCompletionAgent, ChatHistoryAgentThread
+from semantic_kernel.functions import KernelArguments, kernel_function
+from semantic_kernel.connectors.ai.open_ai import OpenAIChatCompletion
+from semantic_kernel.connectors.ai.function_choice_behavior import FunctionChoiceBehavior
+from semantic_kernel.connectors.ai.open_ai.prompt_execution_settings.open_ai_prompt_execution_settings import OpenAIChatPromptExecutionSettings
+from semantic_kernel.contents import ChatMessageContent, FunctionCallContent, FunctionResultContent, TextContent
+from semantic_kernel.connectors.ai.bedrock.bedrock_prompt_execution_settings import BedrockChatPromptExecutionSettings
+from semantic_kernel.connectors.ai.bedrock.services.bedrock_chat_completion import BedrockChatCompletion
+from semantic_kernel.connectors.ai.open_ai import AzureChatCompletion
+#from semantic_kernel.connectors.ai.azure_openai import AzureChatCompletion
+from semantic_kernel.contents import ChatHistory
+from semantic_kernel.connectors.ai.function_choice_behavior import FunctionChoiceBehavior
+#from semantic_kernel.connectors.ai.open_ai.prompt_execution_settings.open_ai_prompt_execution_settings import OpenAIChatPromptExecutionSettings
+from semantic_kernel.agents import BedrockAgent, BedrockAgentThread
+
+
+from azure_methods import FailureScoreChecker, RiskEvaluator, InsurancePremiumEstimator
+from agent_text_processing import VectorMemoryRAGPlugin, StructureClaimData
+
 
 openai_api_type = "azure"
 openai_key = st.secrets["openai"]["AZURE_OPENAI_API_KEY"]
