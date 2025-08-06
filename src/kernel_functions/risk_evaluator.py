@@ -46,7 +46,7 @@ class RiskEvaluator:
         self.runtime = "testruntime"
         self.endpoint_name = "fraud-detection-xgb-v1-endpoint"
 
-    @kernel_function(description="Recommend whether a loan or overdraft request should be approved, based on a risk threshold")
+    @kernel_function(description="Use a model to predict the chance small business has of defaulting on the loan")
     async def assess_risk(
         self,
         claim_data: Annotated[dict, "Structured claim data with fields like coverage_amount and region_of_operation."]
