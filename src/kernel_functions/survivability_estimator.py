@@ -42,7 +42,7 @@ from typing import Annotated
 #self.runtime = boto3.client("sagemaker-runtime")
 #self.endpoint_name = "claim-amount-linear-v2-endpoint"
 
-class InsurancePremiumEstimator:
+class SurvivabilityEstimator:
     def __init__(self):
         self.runtime = "testruntime"
         self.endpoint_name = "testendpoint"
