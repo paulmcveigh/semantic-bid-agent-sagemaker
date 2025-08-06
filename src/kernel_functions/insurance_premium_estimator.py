@@ -47,15 +47,14 @@ class InsurancePremiumEstimator:
         self.runtime = "testruntime"
         self.endpoint_name = "testendpoint"
 
-    @kernel_function(description="Estimate the likely insurance premium range using model in GBP.")
+    @kernel_function(description="Calculate the survivability of a business, i.e.e the length of time they are expected to survive")
     async def estimate_size(
         self,
         claim_data: Annotated[dict, "Structured company data."]
     ) -> dict:
 
         return {
-            "estimated_insurance_premium": 100000,
-            "currency": "GBP",
+            "years": 2.5,
             "service_used": self.runtime,
             "model_used": self.endpoint_name 
         }
