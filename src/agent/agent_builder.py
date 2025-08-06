@@ -8,7 +8,7 @@ import streamlit as st
 
 from kernel_functions.failure_score_checker import FailureScoreChecker
 from kernel_functions.risk_evaluator import RiskEvaluator
-from kernel_functions.insurance_premium_estimator import InsurancePremiumEstimator
+from kernel_functions.survivability_estimator import SurvivabilityEstimator
 from kernel_functions.structure_claim_data import StructureClaimData
 from kernel_functions.vector_memory import VectorMemoryRAGPlugin
 
@@ -88,7 +88,7 @@ def build_agent(claim_text):
     kernel.add_plugin(FailureScoreChecker(), plugin_name="FailureScoreChecker")
     kernel.add_plugin(vector_memory_rag, plugin_name="VectorMemoryRAG")
     kernel.add_plugin(RiskEvaluator(), plugin_name="RiskModel")
-    kernel.add_plugin(InsurancePremiumEstimator(), plugin_name="PremiumEstimator")
+    kernel.add_plugin(SurvivabilityEstimator(), plugin_name="SurvivabilityEstimator")
     kernel.add_plugin(StructureClaimData(kernel), plugin_name="StructureClaimData")
 
 
