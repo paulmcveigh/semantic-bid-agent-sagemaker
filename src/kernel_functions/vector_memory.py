@@ -1,5 +1,4 @@
 import faiss                     # Vector search
-import numpy as np              # Array manipulation for FAISS
 from sentence_transformers import SentenceTransformer  # Embedding model
 from semantic_kernel.functions import kernel_function  # SK plugin decorator
 from typing import Annotated    
