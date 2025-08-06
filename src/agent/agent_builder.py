@@ -55,22 +55,18 @@ openai_version = st.secrets["openai"]["AZURE_OPENAI_API_VERSION"]
 openai_deployment_name = st.secrets["openai"]["AZURE_OPENAI_DEPLOYMENT_NAME"]
 
 
-AGENT_INSTRUCTIONS = """You are an expert insurance underwriting consultant. Your name, if asked, is 'IUA'.
+AGENT_INSTRUCTIONS = """You are an assistant for people approving loans to small businesses. Your name, if asked, is 'FRA'.
 
 Wait for specific instructions from the user before taking any action. Do not perform tasks unless they are explicitly requested.
 
 You may be asked to:
-- Assess the risk profile of an organisation based on model outputs. Please check the database first then run this
-- Estimate the likely insurance premium using our model. Please check the database first then run this
-- Reference insights from a database to assist underwriting decisions
+- Assess the credit risk profile of an organisation based on model outputs, we are trying to predict the chance of the business of defaulting on the loan. Please check the database first then run this
+- Check the survivability of a small business using our model, i.e. how long they are expected to survive
+- Use our counterfactuals model to figure out what it would take for a company to be approved
 
 If a large document has been pasted into the chat, use StructureClaimData to structure its contents and use the output for any function that takes a `claim_data` parameter.
 
 Keep responses brief—no more than a few paragraphs—and always respond only to what the user has asked, when they ask it. 
-For example 
-- If the user only asks for risk rating only give the risk rating 
-- If they only ask for insurance premium only give the insurance premium, do not run both models unless you are asked to in the prompt
-- If they only ask for insights from the database do not give risk or insurance premium scores.
 """
 
 def build_agent(claim_text):
@@ -90,11 +86,9 @@ def build_agent(claim_text):
 
     # --- Register plugins
     kernel.add_plugin(FailureScoreChecker(), plugin_name="FailureScoreChecker")
-    #kernel.add_plugin(DataCollector(kernel), plugin_name="collector")    
     kernel.add_plugin(vector_memory_rag, plugin_name="VectorMemoryRAG")
     kernel.add_plugin(RiskEvaluator(), plugin_name="RiskModel")
     kernel.add_plugin(InsurancePremiumEstimator(), plugin_name="PremiumEstimator")
-    #kernel.add_plugin(ConsumerDutyChecker(kernel), plugin_name="ConsumerDuty")
     kernel.add_plugin(StructureClaimData(kernel), plugin_name="StructureClaimData")
 
 
