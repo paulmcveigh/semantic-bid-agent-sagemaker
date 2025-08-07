@@ -11,9 +11,9 @@ container_name = st.secrets["cosmosdb"]["container"]
 
 #################################################################
 #TODO: Adapt to use db after chat with Tania
-class FailureScoreChecker:
+class DatabaseConnector:
     @kernel_function(description="Retrieve data from the database")
-    async def retrieve_failure_rating(
+    async def retrieve_data(
         self,
         claim_data: Annotated[dict, "Structured claim object containing organisation_name."]
     ) -> dict:
