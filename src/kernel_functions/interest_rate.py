@@ -8,7 +8,7 @@ class InterestRate:
         self.endpoint_name = "fraud-detection-xgb-v1-endpoint"
 
     @kernel_function(description="Use a model to predict the chance small business has of defaulting on the loan")
-    async def assess_risk(
+    async def interest_rate(
         self,
         claim_data: Annotated[dict, "Structured claim data with fields like coverage_amount and region_of_operation."],
         risk_score = 100,
