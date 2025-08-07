@@ -16,11 +16,31 @@ class SurvivabilityEstimator:
         self,
         claim_data: Annotated[dict, "Structured company data."]
     ) -> dict:
-
+        
         return {
             "years": 2.5,
             "service_used": self.runtime,
             "model_used": self.endpoint_name 
+        }
+
+    @kernel_function(description="Should the loan be approved")
+    async def is_loan_approvable(
+        self,
+        claim_data: Annotated[dict, "Structured company data."],
+        risk_score = 60,
+        survival_prob = 0.6,
+        loan_amount = 1000000
+    ) -> dict:
+        if risk_score > 0.5 or survival_prob < 0.5:
+            return {
+                verdict: False
+            }
+        if loan_amount > 100_000 and risk_score > 0.3:
+            return {
+                verdict: False
+            }
+        return {
+            verdict: True
         }
 
 '''coverage_amount = claim_data.get("coverage_amount", "")
