@@ -22,7 +22,7 @@ class DatabaseConnector:
         purposes = ['Working Capital', 'Equipment', 'Expansion', 'Product Development']
         locations = ["London", "Manchester", "Birmingham", "Leeds", "Glasgow"]
         
-         df = pd.DataFrame({
+        df = pd.DataFrame({
             "sector": np.random.choice(sectors, n),
             "location": np.random.choice(locations, n),
             "years_operating": np.random.randint(0, 20, size=n),
