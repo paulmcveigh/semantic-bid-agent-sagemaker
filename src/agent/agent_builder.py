@@ -6,6 +6,9 @@ from kernel_functions.survivability_estimator import SurvivabilityEstimator
 from kernel_functions.counterfactual import Counterfactual
 from kernel_functions.structure_claim_data import StructureClaimData
 from kernel_functions.vector_memory import VectorMemoryRAGPlugin
+from kernel_functions.is_loan_approvable import IsLoanApprovable
+from kernel_functions.interest_rate import InterestRate
+
 # Semantic Kernel core
 from semantic_kernel import Kernel
 from semantic_kernel.agents import ChatCompletionAgent
@@ -30,6 +33,8 @@ You may be asked to:
 - Assess the credit risk profile of an organisation based on model outputs, we are trying to predict the chance of the business of defaulting on the loan. Please check the database first then run this
 - Check the survivability of a small business using our model, i.e. how long they are expected to survive
 - Use our counterfactuals model to figure out what it would take for a company to be approved
+- Determine whether loan is approvable, you will need survivability score and credit risk score from those models first
+- Determine interest rate, you will need survivability score and credit risk score from those models first
 
 If a large document has been pasted into the chat, use StructureClaimData to structure its contents and use the output for any function that takes a `claim_data` parameter.
 
@@ -55,6 +60,8 @@ def build_agent(claim_text):
     kernel.add_plugin(FailureScoreChecker(), plugin_name="FailureScoreChecker")
     kernel.add_plugin(vector_memory_rag, plugin_name="VectorMemoryRAG")
     kernel.add_plugin(RiskEvaluator(), plugin_name="RiskModel")
+    kernel.add_plugin(IsLoanApprovable(), plugin_name="IsLoanApprovable")
+    kernel.add_plugin(InterestRate(), plugin_name="InterestRate")
     kernel.add_plugin(Counterfactual(), plugin_name="Counterfactual")
     kernel.add_plugin(SurvivabilityEstimator(), plugin_name="SurvivabilityEstimator")
     kernel.add_plugin(StructureClaimData(kernel), plugin_name="StructureClaimData")
