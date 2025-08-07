@@ -1,6 +1,6 @@
 import streamlit as st
 # Plugin classes
-from kernel_functions.failure_score_checker import FailureScoreChecker
+from kernel_functions.database_connector import DatabaseConnector
 from kernel_functions.risk_evaluator import RiskEvaluator
 from kernel_functions.survivability_estimator import SurvivabilityEstimator
 from kernel_functions.counterfactual import Counterfactual
@@ -35,6 +35,7 @@ You may be asked to:
 - Use our counterfactuals model to figure out what it would take for a company to be approved
 - Determine whether loan is approvable, you will need survivability score and credit risk score from those models first
 - Determine interest rate, you will need survivability score and credit risk score from those models first
+- Use the database when you think it is necessary
 
 If a large document has been pasted into the chat, use StructureClaimData to structure its contents and use the output for any function that takes a `claim_data` parameter.
 
@@ -57,7 +58,7 @@ def build_agent(claim_text):
         vector_memory_rag.add_document(claim_text)
 
     # --- Register plugins
-    kernel.add_plugin(FailureScoreChecker(), plugin_name="FailureScoreChecker")
+    kernel.add_plugin(DatabaseConnector(), plugin_name="DatabaseConnector")
     kernel.add_plugin(vector_memory_rag, plugin_name="VectorMemoryRAG")
     kernel.add_plugin(RiskEvaluator(), plugin_name="RiskModel")
     kernel.add_plugin(IsLoanApprovable(), plugin_name="IsLoanApprovable")
